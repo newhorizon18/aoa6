@@ -32,7 +32,7 @@ int main() {
     scanf("%d", &S);
 
     if(S < 0 || S >= V) {
-        printf("Invalid source");
+        printf("Invalid source vertex");
         return 1;
     }
 
@@ -52,7 +52,6 @@ int main() {
 
     dist[S] = 0;
 
-    // Relax edges V-1 times
     for(i = 1; i < V; i++) {
         for(j = 0; j < E; j++) {
             int u = e[j].u;
@@ -60,20 +59,20 @@ int main() {
             int w = e[j].w;
 
             if(dist[u] != INT_MAX &&
-               dist[u] + w < dist[v])
+               (long long)dist[u] + w < dist[v]) {
                 dist[v] = dist[u] + w;
+            }
         }
     }
 
-    // Check negative weight cycle
     for(j = 0; j < E; j++) {
         int u = e[j].u;
         int v = e[j].v;
         int w = e[j].w;
 
         if(dist[u] != INT_MAX &&
-           dist[u] + w < dist[v]) {
-            printf("Negative weight cycle found!");
+           (long long)dist[u] + w < dist[v]) {
+            printf("Negative weight cycle found!\n");
             return 0;
         }
     }
@@ -91,17 +90,33 @@ int main() {
 }
 ```
 
+## Terminal Input (Copy and Paste)
+
+```text
+7
+10
+0
+0 1 6
+0 2 5
+0 3 5
+1 4 -1
+2 1 -2
+2 4 1
+3 2 -2
+3 5 -1
+4 6 3
+5 6 3
+```
+
 ## Output
 
 ```text
-PS C:\Users\admin\Desktop\AOA> gcc bellmanford.c -o bellmanford
-
-PS C:\Users\admin\Desktop\AOA> .\bellmanford.exe
+PS C:\AOA> gcc bellmanford.c -o bellmanford
+PS C:\AOA> .\bellmanford.exe
 
 Enter number of vertices: 7
 Enter number of edges: 10
 Enter source vertex: 0
-
 Enter edges (source destination weight):
 0 1 6
 0 2 5
@@ -125,51 +140,46 @@ Vertex    Distance from Source
 ```
 
 ## Aim
-To implement the Bellman-Ford Algorithm to find the shortest path from a source vertex using C.
+To implement the Bellman-Ford Algorithm using C.
 
 ## Theory
-Bellman-Ford is a shortest-path algorithm used to find the minimum distance from a source vertex to all other vertices in a weighted graph.
+Bellman-Ford is a shortest-path algorithm used to find the minimum distance from a source vertex to all other vertices.
 
-It supports negative edge weights and can detect negative weight cycles.
+It supports negative edge weights and detects reachable negative weight cycles.
 
 ## Algorithm
-1. Start the program.
-2. Enter the number of vertices and edges.
-3. Enter the source vertex.
-4. Initialize all distances to infinity except the source.
+1. Enter the number of vertices and edges.
+2. Enter the source vertex.
+3. Initialize distances to infinity.
+4. Set the source distance to zero.
 5. Relax all edges V-1 times.
 6. Check for negative weight cycles.
-7. Display the shortest distances.
+7. Display shortest distances.
 
 ## How to Run
 
-**Step 1:** Save the file as `bellmanford.c`.
+Save as `bellmanford.c`.
 
-**Step 2:** Compile the program:
+Compile:
 
 ```bash
 gcc bellmanford.c -o bellmanford
 ```
 
-**Step 3:** Run in PowerShell:
+Run:
 
 ```powershell
 .\bellmanford.exe
 ```
 
+Paste the input from the Terminal Input section.
+
 ## Time Complexity
 
-| Case | Complexity |
-|------|------------|
-| Best Case | O(V × E) |
-| Average Case | O(V × E) |
-| Worst Case | O(V × E) |
-
-**Space Complexity:** O(V + E)
-
-Where:
-- V = Number of vertices
-- E = Number of edges
+- Best Case: O(V × E)
+- Average Case: O(V × E)
+- Worst Case: O(V × E)
+- Space Complexity: O(V + E)
 
 ## Conclusion
-Successfully implemented the Bellman-Ford Algorithm in C to find the shortest paths from a source vertex and detect negative weight cycles.
+Successfully implemented Bellman-Ford Algorithm in C to find shortest paths from a source vertex.
